@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysOperLogMapper">
+    <select id="getPageList" resultType="com.atguigu.spzx.model.entity.system.SysOperLog">
+        <where>
+            <if test=" title != null and  title != ''">
+                and title = #{ title}
+            </if>
+            <if test=" operName != null and  operName != ''">
+                and operName = #{ operName}
+            </if>
+            <if test=" createTimeBegin != null and  createTimeBegin != ''">
+                and create_Time >= #{ createTimeBegin}
+            </if>
+            <if test=" createTimeEnd != null and  createTimeEnd != ''">
+                and create_Time &lt;= #{ createTimeEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by id desc
+    </select>
+</mapper>
+
+
+

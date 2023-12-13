@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysMenuMapper">
+<!--    添加菜单-->
+    <insert id="addSysMenu">
+        insert into sys_menu(parent_id,title,component,sort_value,status)
+        values (#{parentId},#{title},#{component},#{sortValue},#{status})
+    </insert>
+<!--    更新菜单-->
+    <update id="updateSysMenu">
+        update sys_menu
+            set parent_id=#{parentId}, title = #{title},component = #{component},sort_value = #{sortValue},status = #{status}
+                where id = #{id} and is_deleted = 0
+    </update>
+<!--    删除菜单-->
+    <update id="removeSysMenu">
+        update sys_menu
+            set id = #{id} where is_deleted = 0
+    </update>
+<!--查询所有菜单-->
+    <select id="getSysMenu" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select id, parent_id, title, component, sort_value, status, create_time, update_time, is_deleted
+            from sys_menu
+                where is_deleted = 0
+    </select>
+    <select id="getSysRoleMenu" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select distinct sm.*
+        from sys_menu sm
+                 left join sys_role_menu srm on sm.id = srm.menu_id
+                 left join sys_user_role sur on srm.role_id = sur.role_id
+        where sur.user_id = #{userId}
+          and sur.is_deleted = 0
+          and srm.is_deleted = 0
+          and sm.is_deleted = 0
+          and sm.status = 1
+    </select>
+</mapper>
