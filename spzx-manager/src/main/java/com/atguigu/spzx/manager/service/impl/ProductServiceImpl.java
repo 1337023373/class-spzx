@@ -38,18 +38,18 @@ public class ProductServiceImpl implements ProductService {
     public void SaveProduct(Product product) {
 //       先把product表中的数据进行添加
         productMapper.addAll(product);
-//        设置商品库存
-
-
 //        获取商品的sku信息
-        List<ProductSku> productSkuList = productSkuMapper.getproductSkuList();
+        List<ProductSku> productSkuList = product.getProductSkuList();
+
+        Long productId =  product.getId();
 
 //        遍历能得到表中所有数据,但是前端填写并回传的并没有这么多,所以差什么,就添加什么
         for (int i = 0; i < productSkuList.size(); i++) {
 //
             ProductSku productSku = productSkuList.get(i);
 //            设置并添加skuCode
-            productSku.setSkuCode(product.getId() + "_" + i);
+            productSku.setSkuCode(productId + "_" + i);
+            System.out.println("productId = " + productId);
 //            设置skuName
             productSku.setSkuName(product.getName() + " " + productSku.getSkuSpec());
             // 设置上架状态
@@ -57,13 +57,15 @@ public class ProductServiceImpl implements ProductService {
 //            设置销量
             productSku.setSaleNum(0);
 //            设置商品id
-            productSku.setProductId(product.getId());
+            productSku.setProductId(productId);
+            System.out.println("productId = " + productId);
 
             productSkuMapper.save(productSku);
         }
 //  获取轮播图地址
         ProductDetails productDetails = new ProductDetails();
-        productDetails.setProductId(product.getId());
+        productDetails.setProductId(productId);
+        System.out.println("productId = " + productId);
         productDetails.setImageUrls(product.getDetailsImageUrls());
         productDetailsMapper.save(productDetails);
     }
@@ -113,5 +115,35 @@ public class ProductServiceImpl implements ProductService {
         productSkuMapper.deleteById(id);
         productDetailsMapper.deleteById(id);
 
+    }
+
+//    审核
+//    通过前端点击的通过驳回传回来的值为1或者-1,来设置实体类中的属性,最后调用更新的方法,把数据保存
+    @Override
+    public void UpdateProductAuditStatus(Long id, Integer auditStatus) {
+        Product product = new Product();
+        product.setId(id);
+        if (auditStatus == 1) {
+            product.setAuditMessage("审核通过");
+            product.setAuditStatus(1);
+        }else {
+            product.setAuditMessage("审核不通过");
+            product.setAuditStatus(-1);
+        }
+        productMapper.updateById(product);
+    }
+
+//    上下架商品
+//    前端点击上架传回值,通过这个值设置对应的信息,并传给表
+    @Override
+    public void UpdateProductStatus(Long id, Integer status) {
+        Product product = new Product();
+        product.setId(id);
+        if (status == 1) {
+            product.setStatus(1);
+        }else {
+            product.setStatus(-1);
+        }
+        productMapper.updateById(product);
     }
 }

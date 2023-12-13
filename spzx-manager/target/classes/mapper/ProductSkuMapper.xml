@@ -5,7 +5,8 @@
     <insert id="save">
         insert into product_sku(sku_code, sku_name, product_id, thumb_img, sale_price, market_price, cost_price,
                                 stock_num, sale_num, sku_spec, weight, volume, status)
-        values (#{skuCode},
+        values (
+                #{skuCode},
                 #{ skuName},
                 #{ productId},
                 #{ thumbImg},
@@ -24,35 +25,35 @@
         update product_sku
         <set>
             <if test="skuCode != null and skuCode != '' ">
-                skuCode = #{skuCode},
+                sku_Code = #{skuCode},
             </if>
 
             <if test=" skuName != null and  skuName != '' ">
-                skuName = #{ skuName},
+                sku_Name = #{ skuName},
             </if>
             <if test=" productId != null and  productId != '' ">
-                productId = #{ productId},
+                product_Id = #{ productId},
             </if>
             <if test=" thumbImg != null and  thumbImg != '' ">
-                thumbImg = #{ thumbImg},
+                thumb_Img = #{ thumbImg},
             </if>
             <if test=" salePrice != null and  salePrice != '' ">
-                salePrice = #{ salePrice},
+                sale_Price = #{ salePrice},
             </if>
             <if test=" marketPrice != null and  marketPrice != '' ">
-                marketPrice = #{ marketPrice},
+                market_Price = #{ marketPrice},
             </if>
             <if test=" costPrice != null and  costPrice != '' ">
-                costPrice = #{ costPrice},
+                cost_Price = #{ costPrice},
             </if>
             <if test=" stockNum != null and  stockNum != '' ">
-                stockNum = #{ stockNum},
+                stock_Num = #{ stockNum},
             </if>
             <if test=" saleNum != null and  saleNum != '' ">
-                saleNum = #{ saleNum},
+                sale_Num = #{ saleNum},
             </if>
             <if test=" skuSpec != null and  skuSpec != '' ">
-                skuSpec = #{ skuSpec},
+                sku_Spec = #{ skuSpec},
             </if>
             <if test=" weight != null and  weight != '' ">
                 weight = #{ weight},
@@ -91,6 +92,7 @@
                update_time,
                is_deleted
         from product_sku
+            where is_deleted = 0
     </select>
     <!--    根据id查询-->
     <select id="getById" resultType="com.atguigu.spzx.model.entity.product.ProductSku">

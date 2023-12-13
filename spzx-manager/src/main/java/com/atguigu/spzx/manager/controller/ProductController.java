@@ -42,17 +42,33 @@ public class ProductController {
         Product product = productService.getById(id);
         return Result.build(product, ResultCodeEnum.SUCCESS);
     }
+
     @Operation(summary = "更新商品")
     @PutMapping("/updateById")
     public Result updateById(@Parameter(name = "product", description = "请求参数实体类", required = true) @RequestBody Product product) {
         productService.updateById(product);
-        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+        return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 
     @Operation(summary = "删除商品")
     @DeleteMapping("/deleteById/{id}")
     public Result deleteById(@Parameter(name = "id", description = "商品id", required = true) @PathVariable Long id) {
         productService.deleteById(id);
-        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "审核商品")
+    @GetMapping(value = "/updateAuditStatus/{id}/{auditStatus}")
+
+    public Result UpdateProductAuditStatus(@PathVariable Long id, @PathVariable Integer auditStatus) {
+         productService.UpdateProductAuditStatus(id,auditStatus);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "上下架商品")
+    @GetMapping(value = "/UpdateProductStatus/{id}/{status}")
+    public Result UpdateProductStatus(@PathVariable Long id, @PathVariable Integer status) {
+        productService.UpdateProductStatus(id,status);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 }
