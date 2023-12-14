@@ -19,10 +19,13 @@ public class AsyncSysOperLogServiceImpl implements AsyncSysOperLogService {
     @Resource
     private AsyncSysOperLogMapper asyncSysOperLogMapper;
 
+    @Resource
+    private SysOperLogMapper sysOperLogMapper;
+
     @Async
     @Override
     public void saveAsyncSysOperLog(SysOperLog sysOperLog) {
         //调用SysOperLogMapper中保存的方法
-        asyncSysOperLogMapper.save(sysOperLog);
+        sysOperLogMapper.save(sysOperLog);
     }
 }

@@ -2,7 +2,7 @@ package com.atguigu.spzx.manager.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.atguigu.spzx.common.service.util.AuthContextUtil;
+import com.atguigu.spzx.common.util.AuthContextUtil;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;

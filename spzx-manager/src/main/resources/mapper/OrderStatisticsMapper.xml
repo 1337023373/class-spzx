@@ -19,6 +19,7 @@
                      #{totalNum}
                  )
     </insert>
+<!--    根据查询条件获取数据-->
     <select id="selectList" resultType="com.atguigu.spzx.model.entity.order.OrderStatistics">
         select <include refid="columns" />
         from order_statistics

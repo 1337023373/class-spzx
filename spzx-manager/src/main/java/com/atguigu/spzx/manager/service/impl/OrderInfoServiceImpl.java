@@ -26,12 +26,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         // 查询统计结果数据
         List<OrderStatistics> orderStatisticsList = orderStatisticsMapper.selectList(orderStatisticsDto) ;
 
+//        使用steam流的方式实现
         //日期列表
         List<String> dateList = orderStatisticsList.stream().map(orderStatistics -> DateUtil.format(orderStatistics.getOrderDate(), "yyyy-MM-dd")).collect(Collectors.toList());
 
         //统计金额列表
-        List<BigDecimal> amountList = orderStatisticsList.stream().map(OrderStatistics::getTotalAmount).collect(Collectors.toList());
-
+//        List<BigDecimal> amountList = orderStatisticsList.stream().map(OrderStatistics::getTotalAmount).collect(Collectors.toList());
+        List<BigDecimal> amountList = orderStatisticsList.stream().map(orderStatistics -> orderStatistics.getTotalAmount()).collect(Collectors.toList());
         // 创建OrderStatisticsVo对象封装响应结果数据
         OrderStatisticsVo orderStatisticsVo = new OrderStatisticsVo() ;
         orderStatisticsVo.setDateList(dateList);

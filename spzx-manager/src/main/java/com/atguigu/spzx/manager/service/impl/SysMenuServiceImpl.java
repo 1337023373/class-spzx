@@ -1,6 +1,6 @@
 package com.atguigu.spzx.manager.service.impl;
 
-import com.atguigu.spzx.common.service.util.AuthContextUtil;
+import com.atguigu.spzx.common.util.AuthContextUtil;
 import com.atguigu.spzx.manager.helper.MenuHelper;
 import com.atguigu.spzx.manager.mapper.SysMenuMapper;
 import com.atguigu.spzx.manager.service.SysMenuService;

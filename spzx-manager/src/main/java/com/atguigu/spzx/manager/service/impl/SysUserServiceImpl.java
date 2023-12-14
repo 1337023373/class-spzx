@@ -2,29 +2,21 @@ package com.atguigu.spzx.manager.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.spzx.common.service.exception.GuiguException;
-import com.atguigu.spzx.common.service.util.AuthContextUtil;
-import com.atguigu.spzx.manager.helper.MenuHelper;
-import com.atguigu.spzx.manager.mapper.SysMenuMapper;
+import com.atguigu.spzx.common.util.AuthContextUtil;
 import com.atguigu.spzx.manager.mapper.SysUserMapper;
 import com.atguigu.spzx.manager.service.SysUserService;
 import com.atguigu.spzx.model.dto.system.LoginDto;
-import com.atguigu.spzx.model.entity.system.SysMenu;
 import com.atguigu.spzx.model.vo.system.LoginVo;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
-import com.atguigu.spzx.model.vo.system.SysMenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service

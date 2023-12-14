@@ -8,4 +8,6 @@ import java.util.List;
 public interface SysOperLogMapper {
 
     List<SysOperLog> getPageList(SysOperLogDto sysOperLogDto);
+
+    void save(SysOperLog sysOperLog);
 }
