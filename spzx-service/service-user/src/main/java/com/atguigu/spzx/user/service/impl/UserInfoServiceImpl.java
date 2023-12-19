@@ -3,6 +3,7 @@ package com.atguigu.spzx.user.service.impl;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.spzx.common.service.exception.GuiguException;
 import com.atguigu.spzx.common.util.IpUtil;
@@ -16,6 +17,7 @@ import com.atguigu.spzx.user.mapper.UserInfoMapper;
 import com.atguigu.spzx.user.service.UserInfoService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -111,9 +113,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     /*
     * 登录后展示会员信息
+    * 这里可以通过token直接拿到userInfo内的所有值直接返回，但是有个实体类，且只要其中的两个属性，所有需要转换下
+    * 尤其需要注意此从redis中查到的值是JSON格式，所以需要转化
     * */
     @Override
-    public void getCurrentUserInfo(UserInfoVo userInfoVo) {
-
+    public UserInfoVo getCurrentUserInfo(String token) {
+//        根据保存的token去数据库查找
+        String userInfoJSON = redisTemplate.opsForValue().get("user:login:" + token);
+//        判断是否为空
+        if (StrUtil.isEmpty(userInfoJSON)) {
+            throw new GuiguException(ResultCodeEnum.LOGIN_AUTH);
+        }
+        UserInfo userInfo = JSONObject.parseObject(userInfoJSON, UserInfo.class);
+        UserInfoVo userInfoVo = new UserInfoVo();
+//        userInfoVo.setAvatar(userInfo.getNickName());
+        BeanUtils.copyProperties(userInfo, userInfoVo);
+        return userInfoVo;
     }
 }

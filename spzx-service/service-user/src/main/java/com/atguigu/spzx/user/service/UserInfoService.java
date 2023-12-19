@@ -11,5 +11,6 @@ public interface UserInfoService {
 
     String login(UserLoginDto userLoginDto, HttpServletRequest request);
 
-    void getCurrentUserInfo(UserInfoVo userInfoVo);
+
+    UserInfoVo getCurrentUserInfo(String token);
 }

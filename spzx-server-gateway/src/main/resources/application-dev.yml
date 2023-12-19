@@ -2,7 +2,11 @@ server:
   port: 8500
 spring:
   application:
-    name: spzx-server-gateway
+    name: spzx-server-gateway.
+  data:
+    redis:
+      host: 192.168.157.133
+      port: 6379
   cloud:
     nacos:
       discovery:
