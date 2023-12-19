@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.atguigu.spzx.product.mapper.ProductDetailsMapper">
 <!--    通过id查询轮播图-->
-    <select id="findProductDetailsById" resultType="com.atguigu.spzx.model.entity.product.ProductDetails">
-        select id, product_id, image_urls, create_time, update_time, is_deleted
+
+    <select id="findProductDetailsById" resultType="java.lang.String">
+        select image_urls
             from product_details
-                where product_id = #{productId} and is_deleted = 0
+            where product_id = #{productId} and is_deleted = 0
     </select>
 </mapper>

@@ -52,7 +52,7 @@
         select id, sku_code, sku_name, product_id, thumb_img, sale_price, market_price, cost_price, stock_num,
                sale_num, sku_spec, weight, volume, status, create_time, update_time, is_deleted
             from product_sku
-            where id = #{skuId} and is_deleted = 0 and status = 1
+            where id = #{id} and is_deleted = 0
     </select>
 
     <select id="findProductSkuByParendId" resultType="com.atguigu.spzx.model.entity.product.ProductSku">
