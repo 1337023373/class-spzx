@@ -14,7 +14,8 @@ public enum ResultCodeEnum {
     ACCOUNT_STOP(205, "账号已禁用"),
     VALIDATECODE_EMPTY(206, "验证码为空"),
     VALIDATECODE_ERROR(207,"验证码不正确" ),
-    LOGIN_AUTH(208, "没有登录");
+    LOGIN_AUTH(208, "没有登录"),
+    ACCOUNT_EXIST(209, "账号已存在"),;
 
     private Integer code ;      // 业务状态码
     private String message ;    // 响应消息

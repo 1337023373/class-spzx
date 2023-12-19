@@ -5,5 +5,5 @@ import com.atguigu.spzx.model.entity.product.ProductDetails;
 import java.util.List;
 
 public interface ProductDetailsMapper {
-    List<ProductDetails> findProductDetailsById(Long productId);
+    String findProductDetailsById(Long productId);
 }
