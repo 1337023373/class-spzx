@@ -41,6 +41,6 @@ public class UserInfoController {
     public Result getCurrentUserInfo(HttpServletRequest request) {
         String token = request.getHeader("token");
         UserInfoVo userInfoVo = userInfoService.getCurrentUserInfo(token);
-        return Result.build(null, ResultCodeEnum.SUCCESS);
+        return Result.build(userInfoVo, ResultCodeEnum.SUCCESS);
     }
 }

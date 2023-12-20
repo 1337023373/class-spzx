@@ -6,4 +6,6 @@ import com.github.pagehelper.PageInfo;
 
 public interface ProductSkuService {
     PageInfo<ProductSku> findProductSku(Integer current, Integer size, ProductSkuDto productSkuDto);
+
+    ProductSku getBySkuId(Long skuId);
 }

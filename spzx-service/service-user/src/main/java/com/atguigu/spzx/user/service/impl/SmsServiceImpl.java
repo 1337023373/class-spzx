@@ -19,7 +19,7 @@ public class SmsServiceImpl implements SmsService {
     public void sendCode(String phone) {
         String randomNumeric = RandomStringUtils.randomNumeric(4);
 //        调用smsutils类向手机发送消息
-        SmsUtils.sendCode(phone,randomNumeric);
+//        SmsUtils.sendCode(phone,randomNumeric);
         redisTemplate.opsForValue().set("phone:code:" + phone, randomNumeric);
 
     }

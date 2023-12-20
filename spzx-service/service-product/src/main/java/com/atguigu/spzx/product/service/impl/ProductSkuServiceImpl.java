@@ -24,4 +24,14 @@ public class ProductSkuServiceImpl implements ProductSkuService {
             return new PageInfo<>(productSkuList);
     }
 
+    /**
+     * 通过skuid得到数据
+     * @param skuId
+     * @return
+     */
+    @Override
+    public ProductSku getBySkuId(Long skuId) {
+        return productSkuMapper.findProductSkuById(skuId);
+    }
+
 }

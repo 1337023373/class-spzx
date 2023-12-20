@@ -2,11 +2,12 @@ server:
   port: 8500
 spring:
   application:
-    name: spzx-server-gateway.
+    name: spzx-server-gateway
   data:
     redis:
       host: 192.168.157.133
       port: 6379
+      password: 1234
   cloud:
     nacos:
       discovery:
@@ -37,3 +38,7 @@ spring:
           uri: lb://service-user
           predicates:
             - Path=/*/user/**
+        - id: service-cart
+          uri: lb://service-cart
+          predicates:
+              - Path=/api/order/cart/**

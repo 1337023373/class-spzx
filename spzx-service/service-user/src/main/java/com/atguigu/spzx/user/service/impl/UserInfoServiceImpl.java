@@ -6,6 +6,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.spzx.common.service.exception.GuiguException;
+import com.atguigu.spzx.common.util.AuthContextUtil;
 import com.atguigu.spzx.common.util.IpUtil;
 import com.atguigu.spzx.model.dto.user.UserLoginDto;
 import com.atguigu.spzx.model.dto.user.UserRegisterDto;
@@ -118,16 +119,19 @@ public class UserInfoServiceImpl implements UserInfoService {
     * */
     @Override
     public UserInfoVo getCurrentUserInfo(String token) {
-//        根据保存的token去数据库查找
-        String userInfoJSON = redisTemplate.opsForValue().get("user:login:" + token);
-//        判断是否为空
-        if (StrUtil.isEmpty(userInfoJSON)) {
-            throw new GuiguException(ResultCodeEnum.LOGIN_AUTH);
-        }
-        UserInfo userInfo = JSONObject.parseObject(userInfoJSON, UserInfo.class);
+////        根据保存的token去数据库查找
+//        String userInfoJSON = redisTemplate.opsForValue().get("user:login:" + token);
+////        判断是否为空
+//        if (StrUtil.isEmpty(userInfoJSON)) {
+//            throw new GuiguException(ResultCodeEnum.LOGIN_AUTH);
+//        }
+//        UserInfo userInfo = JSONObject.parseObject(userInfoJSON, UserInfo.class);
+        //从AuthContextUtil中获取用户信息
+        UserInfo userInfo = AuthContextUtil.getUserInfo();
+        //创建UserInfoVo对象
         UserInfoVo userInfoVo = new UserInfoVo();
-//        userInfoVo.setAvatar(userInfo.getNickName());
-        BeanUtils.copyProperties(userInfo, userInfoVo);
+        //复制属性值
+        BeanUtils.copyProperties(userInfo,userInfoVo);
         return userInfoVo;
     }
 }
