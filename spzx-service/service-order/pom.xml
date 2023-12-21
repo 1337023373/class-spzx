@@ -9,7 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-cart</artifactId>
+    <artifactId>service-order</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+        </dependency>
+        <!--        依赖远程调用购物车cart模块-->
+        <dependency>
+            <groupId>com.atguigu.spzx</groupId>
+            <artifactId>service-cart-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,20 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-<!--        依赖远程调用商品product模块-->
-        <dependency>
-            <groupId>com.atguigu.spzx</groupId>
-            <artifactId>service-product-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
 
-    </dependencies>
 
 </project>

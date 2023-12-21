@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -130,6 +131,23 @@ public class CartServiceImpl implements CartService {
     public void clearCart() {
         String cartKey = getCartKey();
         redisTemplate.delete(cartKey);
+    }
+
+    /**
+     * 结算页面展示所有选中的购物车商品
+     * @return
+     */
+    @Override
+    public List<CartInfo> getAllCkecked() {
+        String cartKey = getCartKey();
+//        通过key拿到所有商品数据,返回的数据一定要加泛型,不然拿不到careinfo的属性
+        List<CartInfo> list = redisTemplate.opsForHash().values(cartKey);
+//      把选中的状态为1的都遍历出来
+        if (!CollectionUtils.isEmpty(list)) {
+            List<CartInfo> cartInfoList = list.stream().filter(cartInfo -> cartInfo.getIsChecked() == 1).collect(Collectors.toList());
+            return cartInfoList;
+        }
+        return null;
     }
 
 

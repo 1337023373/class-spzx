@@ -59,4 +59,11 @@ public class CartController {
         cartService.clearCart();
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
+
+    @Operation(summary = "选中的购物车商品")
+    @GetMapping ("/auth/getAllCkecked")
+    public Result getAllCkecked() {
+       List<CartInfo> cartInfoList = cartService.getAllCkecked();
+        return Result.build(cartInfoList, ResultCodeEnum.SUCCESS);
+    }
 }
