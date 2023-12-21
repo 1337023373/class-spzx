@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface UserAddressService {
     List<UserAddress> getUserAddress();
+
+    UserAddress getById(Long id);
 }

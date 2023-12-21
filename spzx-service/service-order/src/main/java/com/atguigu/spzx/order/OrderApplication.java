@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableUserTokenFeignInterceptor
 @ComponentScan(basePackages = "com.atguigu.spzx")
-@EnableFeignClients(basePackages = "com.atguigu.spzx.feign.cart")
+@EnableFeignClients(basePackages = "com.atguigu.spzx")
 public class OrderApplication {
 
     public static void main(String[] args) {

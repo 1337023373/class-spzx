@@ -21,6 +21,19 @@
             <artifactId>service-cart-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--        依赖远程调用商品product模块-->
+        <dependency>
+            <groupId>com.atguigu.spzx</groupId>
+            <artifactId>service-product-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--        依赖远程调用地址address模块-->
+        <dependency>
+            <groupId>com.atguigu.spzx</groupId>
+            <artifactId>service-user-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <properties>

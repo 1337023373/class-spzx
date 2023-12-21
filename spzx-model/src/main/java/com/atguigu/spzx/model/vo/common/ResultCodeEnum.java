@@ -15,7 +15,9 @@ public enum ResultCodeEnum {
     VALIDATECODE_EMPTY(206, "验证码为空"),
     VALIDATECODE_ERROR(207,"验证码不正确" ),
     LOGIN_AUTH(208, "没有登录"),
-    ACCOUNT_EXIST(209, "账号已存在"),;
+    ACCOUNT_EXIST(209, "账号已存在"),
+    ORDER_EMPTY(210,"订单为空" ),
+    DATA_ERROR(211, "数据错误");
 
     private Integer code ;      // 业务状态码
     private String message ;    // 响应消息

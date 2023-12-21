@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface UserAddressMapper {
     List<UserAddress> getUserAddress(Long userId);
+
+    UserAddress getById(Long id);
 }

@@ -1,10 +1,20 @@
 package com.atguigu.spzx.order.service.impl;
 
 
+import com.atguigu.spzx.common.service.exception.GuiguException;
+import com.atguigu.spzx.common.util.AuthContextUtil;
 import com.atguigu.spzx.feign.cart.CartFeignClient;
+import com.atguigu.spzx.feign.product.ProductFeignClient;
+import com.atguigu.spzx.feign.user.UserFeignClient;
+import com.atguigu.spzx.model.dto.h5.OrderInfoDto;
 import com.atguigu.spzx.model.entity.h5.CartInfo;
+import com.atguigu.spzx.model.entity.h5.UserAddress;
+import com.atguigu.spzx.model.entity.h5.UserInfo;
+import com.atguigu.spzx.model.entity.order.OrderInfo;
 import com.atguigu.spzx.model.entity.order.OrderItem;
+import com.atguigu.spzx.model.entity.product.ProductSku;
 import com.atguigu.spzx.model.vo.common.Result;
+import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.h5.TradeVo;
 import com.atguigu.spzx.order.service.OrderInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +33,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private RedisTemplate redisTemplate;
     @Autowired
     private CartFeignClient cartFeignClient;
+
+    @Autowired
+    private ProductFeignClient productFeignClient;
+
+    @Autowired
+    private UserFeignClient userFeignClient;
 
     @Override
     public TradeVo getOrderInfoTrade() {
@@ -63,5 +79,52 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         tradeVo.setTotalAmount(totalBigDecimal);
         tradeVo.setOrderItemList(orderItemOrderList);
         return tradeVo;
+    }
+
+    @Override
+    public Long submitOrder(OrderInfoDto orderInfoDto) {
+//        通过orderInfoDto 获取所有订单项
+        List<OrderItem> orderItemList = orderInfoDto.getOrderItemList();
+//        判断订单是否为空
+        if (orderItemList == null) {
+            throw new GuiguException(ResultCodeEnum.ORDER_EMPTY);
+        }
+//          校验商品库存是否足够
+//        遍历OrderItem集合,校验库存是否足够,需要远程调用商品sku信息
+        for (OrderItem orderItem : orderItemList) {
+//            远程调用获取sku信息
+            ProductSku productSku = productFeignClient.getBySkuId(orderItem.getSkuId()).getData();
+            if (orderItem.getSkuNum().intValue() > productSku.getStockNum().intValue()) {
+                throw new GuiguException(ResultCodeEnum.DATA_ERROR);
+            }
+        }
+//        添加数据到order_info表,需要远程调用获取用户地址
+        OrderInfo orderInfo = new OrderInfo();
+//        从当前线程获取数据
+        UserInfo userInfo = AuthContextUtil.getUserInfo();
+//        设置orderinfo的id,使用当前的时间戳这样的唯一的值
+        orderInfo.setOrderNo(String.valueOf(System.currentTimeMillis()));
+        orderInfo.setUserId(userInfo.getId());
+        orderInfo.setNickName(userInfo.getNickName());
+
+//        看实现类发现后面很多数据是关于地址的,所以这里需要远程调用
+        UserAddress userAddress = userFeignClient.getUserAddress(orderInfoDto.getUserAddressId());
+        orderInfo.setReceiverName(userAddress.getName());
+        orderInfo.setReceiverPhone(userAddress.getPhone());
+        orderInfo.setReceiverTagName(userAddress.getTagName());
+        orderInfo.setReceiverProvince(userAddress.getProvinceCode());
+        orderInfo.setReceiverCity(userAddress.getCityCode());
+        orderInfo.setReceiverDistrict(userAddress.getDistrictCode());
+        orderInfo.setReceiverAddress(userAddress.getFullAddress());
+//        获取总金额
+
+//        添加数据到order_item表
+
+//        添加到order_log表
+
+//        把生成订单的商品,从购物车删除
+
+//        返回订单id
+
     }
 }

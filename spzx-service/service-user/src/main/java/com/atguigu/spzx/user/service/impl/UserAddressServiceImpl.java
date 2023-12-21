@@ -33,4 +33,9 @@ public class UserAddressServiceImpl implements UserAddressService {
         List<UserAddress> userAddressList =userAddressMapper.getUserAddress(userId);
         return userAddressList;
     }
+
+    @Override
+    public UserAddress getById(Long id) {
+       return userAddressMapper.getById(id);
+    }
 }
