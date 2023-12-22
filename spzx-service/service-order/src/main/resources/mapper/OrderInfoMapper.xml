@@ -56,9 +56,29 @@
         from order_info
         where id = #{id}
     </select>
-<!--    根据用户id查询订单-->
-    <select id="orderInfo" resultType="com.atguigu.spzx.model.entity.order.OrderInfo">
-
+    <!--    根据用户id查询订单-->
+    <select id="orderInfo" resultMap="myOrderMap">
+        select
+            from order_info
+            <where>
+                <if test="orderStatus ！= null">
+                    and orderStatus = #{orderStatus}
+                </if>
+                    and userInfo_id = #{userInfoId}
+            </where>
+                 order by id desc
     </select>
-
+    <resultMap id="myOrderMap" type="com.atguigu.spzx.model.entity.order.OrderInfo" autoMapping="true">
+<!--        一对多的映射  collection
+            多对一的映射  association
+            property：指定哪个属性名来对应一对多中的多
+            ofType：指定类型，有泛型就是泛型中的，没有就根据返回类型来定义
+            select: 指定这个对应多的属性，调用接口的方法的全路径类名
+            column: 将查询出的某个字段作为分布查询的sql的条件，及一是通过column,去找到多个
+-->
+            <collection property="orderItemList"
+                        ofType="com.atguigu.spzx.model.entity.order.OrderItem"
+                        select="com.atguigu.spzx.order.mapper.OrderItemMapper.getOrderItemByOrderId"
+                        column="id"/>
+    </resultMap>
 </mapper>
