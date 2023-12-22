@@ -4,6 +4,7 @@ import com.atguigu.spzx.cart.service.CartService;
 import com.atguigu.spzx.model.entity.h5.CartInfo;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
+import com.atguigu.spzx.model.vo.h5.TradeVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class CartController {
 
     @Operation(summary = "更新购物车选中状态")
     @GetMapping("/auth/checkCart/{skuId}/{isChecked}")
-    public Result checkCart(@PathVariable Long skuId,@PathVariable Integer isChecked) {
-         cartService.checkCart(skuId,isChecked);
+    public Result checkCart(@PathVariable Long skuId, @PathVariable Integer isChecked) {
+        cartService.checkCart(skuId, isChecked);
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 
@@ -54,16 +55,24 @@ public class CartController {
     }
 
     @Operation(summary = "清空购物车商品")
-    @GetMapping ("/auth/clearCart")
+    @GetMapping("/auth/clearCart")
     public Result clearCart() {
         cartService.clearCart();
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 
-    @Operation(summary = "选中的购物车商品")
-    @GetMapping ("/auth/getAllCkecked")
+    @Operation(summary = "远程调用选中的购物车商品")
+    @GetMapping("/auth/getAllCkecked")
     public Result getAllCkecked() {
-       List<CartInfo> cartInfoList = cartService.getAllCkecked();
+        List<CartInfo> cartInfoList = cartService.getAllCkecked();
         return Result.build(cartInfoList, ResultCodeEnum.SUCCESS);
     }
+
+    @Operation(summary = "远程调用删除选中的购物车商品")
+    @GetMapping("/auth/deleteChecked")
+    public Result deleteChecked() {
+        cartService.deleteChecked();
+        return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
 }

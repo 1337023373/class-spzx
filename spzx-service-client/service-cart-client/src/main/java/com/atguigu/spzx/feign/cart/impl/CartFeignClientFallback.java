@@ -19,4 +19,9 @@ public class CartFeignClientFallback implements CartFeignClient {
         log.info("CartFeignClientFallback...getAllCkecked的方法执行了");
         return Result.build(null , ResultCodeEnum.SUCCESS) ;
     }
+
+    @Override
+    public Result deleteChecked() {
+        return null;
+    }
 }

@@ -1,6 +1,7 @@
 package com.atguigu.spzx.cart.service;
 
 import com.atguigu.spzx.model.entity.h5.CartInfo;
+import com.atguigu.spzx.model.vo.h5.TradeVo;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface CartService {
     void clearCart();
 
     List<CartInfo> getAllCkecked();
+
+    void deleteChecked();
 }

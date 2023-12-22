@@ -8,6 +8,7 @@ import com.atguigu.spzx.feign.product.ProductFeignClient;
 import com.atguigu.spzx.model.entity.h5.CartInfo;
 import com.atguigu.spzx.model.entity.product.ProductSku;
 import com.atguigu.spzx.model.vo.common.Result;
+import com.atguigu.spzx.model.vo.h5.TradeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -150,5 +151,16 @@ public class CartServiceImpl implements CartService {
         return null;
     }
 
+    /**
+     * 远程调用的删除选中的商品
+     */
+    @Override
+    public void deleteChecked() {
+        String cartKey = getCartKey();
+        List<CartInfo> cartInfoList = redisTemplate.opsForHash().values(getCartKey());
+        List<CartInfo> list = cartInfoList.stream().filter(cartInfo -> cartInfo.getIsChecked() == 1).collect(Collectors.toList());
+        list.forEach(cartInfo ->
+                redisTemplate.opsForHash().delete(cartKey, String.valueOf(cartInfo.getSkuId())));
+    }
 
 }

@@ -8,19 +8,25 @@ import com.alibaba.fastjson.JSONObject;
 import com.atguigu.spzx.common.service.exception.GuiguException;
 import com.atguigu.spzx.common.util.AuthContextUtil;
 import com.atguigu.spzx.common.util.IpUtil;
+import com.atguigu.spzx.feign.product.ProductFeignClient;
 import com.atguigu.spzx.model.dto.user.UserLoginDto;
 import com.atguigu.spzx.model.dto.user.UserRegisterDto;
 
 import com.atguigu.spzx.model.entity.h5.UserInfo;
+import com.atguigu.spzx.model.entity.order.OrderItem;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.user.UserInfoVo;
+import com.atguigu.spzx.user.mapper.UserCollectMapper;
 import com.atguigu.spzx.user.mapper.UserInfoMapper;
 import com.atguigu.spzx.user.service.UserInfoService;
+
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +41,11 @@ import java.util.concurrent.TimeUnit;
 public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     private UserInfoMapper userInfoMapper;
+
+    @Resource
+    private UserCollectMapper userCollectMapper;
+
+
     @Autowired
     protected RedisTemplate<String,String> redisTemplate;
     @Override
@@ -134,4 +145,25 @@ public class UserInfoServiceImpl implements UserInfoService {
         BeanUtils.copyProperties(userInfo,userInfoVo);
         return userInfoVo;
     }
+
+    /**
+     * 用户收藏
+     */
+    @Override
+    public Boolean collect(Long skuId) {
+        Long userId = AuthContextUtil.getUserInfo().getId();
+        userCollectMapper.add(userId,skuId);
+        return true;
+    }
+
+    /**
+     * 用户取消收藏
+     */
+    @Override
+    public void cancelCollect(Long skuId) {
+
+        userCollectMapper.delete(skuId);
+
+    }
+
 }

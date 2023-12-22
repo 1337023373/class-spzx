@@ -37,10 +37,25 @@ public class UserInfoController {
 
     @Operation(summary = "获取用户信息")
     @GetMapping("/auth/getCurrentUserInfo")
-
     public Result getCurrentUserInfo(HttpServletRequest request) {
         String token = request.getHeader("token");
         UserInfoVo userInfoVo = userInfoService.getCurrentUserInfo(token);
         return Result.build(userInfoVo, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "用户收藏")
+    @GetMapping("/auth/collect/{skuId}")
+    public Result collect(@PathVariable Long skuId) {
+
+        Boolean resultBoolean =  userInfoService.collect(skuId);
+        return Result.build(resultBoolean, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "用户取消收藏")
+    @GetMapping("/auth/cancelCollect/{skuId}")
+    public Result cancelCollect(@PathVariable Long skuId) {
+
+         userInfoService.cancelCollect(skuId);
+        return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 }

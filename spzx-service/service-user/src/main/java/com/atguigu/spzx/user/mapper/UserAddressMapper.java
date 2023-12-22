@@ -8,4 +8,11 @@ public interface UserAddressMapper {
     List<UserAddress> getUserAddress(Long userId);
 
     UserAddress getById(Long id);
+
+//    新增地址
+    void addUserAddress();
+
+    UserAddress updateAddress(UserAddress userAddress);
+
+    void deleteById(Long userId);
 }
