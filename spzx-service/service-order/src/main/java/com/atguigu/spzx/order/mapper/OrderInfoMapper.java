@@ -11,5 +11,9 @@ public interface OrderInfoMapper {
 
     OrderInfo getOrderInfo(Long orderId);
 
-    List<OrderInfo> orderInfo(@Param("userInfoId") Long userInfoId, @Param("orderStatus") Integer orderStatus);
+    List<OrderInfo> orderInfo(@Param("userId") Long userId, @Param("orderStatus") Integer orderStatus);
+
+    OrderInfo getOrderInfoByOrderNo(String orderNo);
+
+    void updateById(String orderNo, Integer orderStatus);
 }

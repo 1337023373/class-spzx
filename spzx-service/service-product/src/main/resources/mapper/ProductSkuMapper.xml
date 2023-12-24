@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.atguigu.spzx.product.mapper.ProductSkuMapper">
-<!--    根据销量展示数据-->
+<!--    根据skuId更新-->
+    <update id="updateSkuSaleNum">
+        update product_sku
+            set sale_num = sale_num + #{skuNum},stock_num = stock_num - #{skuNum}
+            where id = #{skuId}
+    </update>
+    <!--    根据销量展示数据-->
     <select id="showAllBySale" resultType="com.atguigu.spzx.model.entity.product.ProductSku">
         select ps.*
             from product_sku ps

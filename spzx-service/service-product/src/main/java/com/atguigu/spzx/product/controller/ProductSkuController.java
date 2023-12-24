@@ -26,12 +26,17 @@ public class ProductSkuController {
         return Result.build(pageInfo, ResultCodeEnum.SUCCESS);
     }
 
-//    远程调用：根据skuid返回信息
+    //    远程调用：根据skuid返回信息
     @Operation(summary = "获取商品sku信息")
     @GetMapping("/getBySkuId/{skuId}")
     public Result<ProductSku> getBySkuId(@Parameter(name = "skuId", description = "商品skuId", required = true) @PathVariable Long skuId) {
         ProductSku productSku = productSkuService.getBySkuId(skuId);
-        return Result.build(productSku , ResultCodeEnum.SUCCESS) ;
+        return Result.build(productSku, ResultCodeEnum.SUCCESS);
     }
 
+    @Operation(summary = "远程调用通过orderno找到对应的skuId，并修改商品修改")
+    @GetMapping("/updateSkuSaleNum/{skuId}/{skuNum}")
+    public void updateSkuSaleNum(@PathVariable Long skuId,@PathVariable Integer skuNum) {
+        productSkuService.updateSkuSaleNum(skuId,skuNum);
+    }
 }

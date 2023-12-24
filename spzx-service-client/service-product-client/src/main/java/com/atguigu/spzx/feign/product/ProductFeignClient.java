@@ -14,4 +14,7 @@ public interface ProductFeignClient {
     @GetMapping("/api/product/getBySkuId/{skuId}")
     public abstract Result<ProductSku> getBySkuId(@PathVariable Long skuId) ;
 
+//    支付完成后远程调用product接口，更改商品数量给
+    @GetMapping("/api/product/updateSkuSaleNum/{skuId}/{skuNum}")
+    public void updateSkuSaleNum(@PathVariable Long skuId,@PathVariable  Integer skuNum);
 }

@@ -53,8 +53,21 @@ public class OrderInfoController {
 
     @Operation(summary = "获取我的订单接口")
     @GetMapping("/orderInfo/auth/{page}/{limit}")
-    public Result orderInfo(@PathVariable Integer page, @PathVariable Integer limit,Integer orderStatus) {
+    public Result orderInfo(@PathVariable Integer page, @PathVariable Integer limit, Integer orderStatus) {
         PageInfo<OrderInfo> pageInfo = orderInfoService.orderInfo(page, limit, orderStatus);
         return Result.build(pageInfo, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "通过订单号获取订单信息")
+    @GetMapping("/orderInfo/auth/getOrderInfoByOrderNo/{orderNo}")
+    public Result<OrderInfo> getOrderInfoByOrderNo(@PathVariable String orderNo) {
+        OrderInfo orderInfo = orderInfoService.getOrderInfoByOrderNo(orderNo);
+        return Result.build(orderInfo, ResultCodeEnum.SUCCESS);
+    }
+
+    @Operation(summary = "远程调用支付后通过订单号修改订单信息状态")
+    @GetMapping("/orderInfo/auth/updateOrderStatus/{orderNo}/{orderStatus}")
+    public void updateOrderStatus(@PathVariable String orderNo, @PathVariable Integer orderStatus) {
+        orderInfoService.updateOrderStatus(orderNo, orderStatus);
     }
 }

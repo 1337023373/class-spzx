@@ -17,4 +17,8 @@ public interface OrderInfoService {
     OrderInfo getOrderInfo(Long orderId);
 
     PageInfo<OrderInfo> orderInfo(Integer page, Integer limit, Integer orderStatus);
+
+    OrderInfo getOrderInfoByOrderNo(String orderNo);
+
+    void updateOrderStatus(String orderNo, Integer orderStatus);
 }

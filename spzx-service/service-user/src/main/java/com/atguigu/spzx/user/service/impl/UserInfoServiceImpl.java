@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.atguigu.spzx.common.service.exception.GuiguException;
 import com.atguigu.spzx.common.util.AuthContextUtil;
 import com.atguigu.spzx.common.util.IpUtil;
-import com.atguigu.spzx.feign.product.ProductFeignClient;
+
 import com.atguigu.spzx.model.dto.user.UserLoginDto;
 import com.atguigu.spzx.model.dto.user.UserRegisterDto;
 

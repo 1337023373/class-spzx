@@ -8,4 +8,6 @@ public interface ProductSkuService {
     PageInfo<ProductSku> findProductSku(Integer current, Integer size, ProductSkuDto productSkuDto);
 
     ProductSku getBySkuId(Long skuId);
+
+    void updateSkuSaleNum(Long skuId, Integer skuNum);
 }

@@ -34,4 +34,9 @@ public class ProductSkuServiceImpl implements ProductSkuService {
         return productSkuMapper.findProductSkuById(skuId);
     }
 
+    @Override
+    public void updateSkuSaleNum(Long skuId, Integer skuNum) {
+        productSkuMapper.updateSkuSaleNum(skuId,skuNum);
+    }
+
 }

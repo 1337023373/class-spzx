@@ -18,4 +18,9 @@ public class ProductFeignClientFallback implements ProductFeignClient {
         return Result.build(null , ResultCodeEnum.SUCCESS) ;
     }
 
+    @Override
+    public void updateSkuSaleNum(Long skuId, Integer skuNum) {
+
+    }
+
 }

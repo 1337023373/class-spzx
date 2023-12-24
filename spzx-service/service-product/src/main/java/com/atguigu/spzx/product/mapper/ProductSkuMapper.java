@@ -13,4 +13,6 @@ public interface ProductSkuMapper {
     ProductSku findProductSkuById(Long skuId);
 
     List<ProductSku> findProductSkuByParendId(Long productId);
+
+    void updateSkuSaleNum(Long skuId, Integer skuNum);
 }

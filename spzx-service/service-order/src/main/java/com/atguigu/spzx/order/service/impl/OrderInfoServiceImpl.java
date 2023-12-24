@@ -31,13 +31,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 @Transactional
 public class OrderInfoServiceImpl implements OrderInfoService {
-    @Autowired
-    private RedisTemplate redisTemplate;
+
     @Autowired
     private CartFeignClient cartFeignClient;
 
@@ -202,6 +202,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         return orderInfoMapper.getOrderInfo(orderId);
     }
 
+    /**
+     * 获取我的订单信息
+     * @param page
+     * @param limit
+     * @param orderStatus
+     * @return
+     */
     @Override
     public PageInfo<OrderInfo> orderInfo(Integer page, Integer limit, Integer orderStatus) {
         PageHelper.startPage(page, limit);
@@ -209,6 +216,38 @@ public class OrderInfoServiceImpl implements OrderInfoService {
        List<OrderInfo> orderInfoList =  orderInfoMapper.orderInfo(userInfoId, orderStatus);
 
         return new PageInfo<>(orderInfoList);
+    }
+
+    /**\
+     * 获取订单信息
+     * @param orderNo
+     * @return
+     */
+    @Override
+    public OrderInfo getOrderInfoByOrderNo(String orderNo) {
+//        根据订单号查询
+       OrderInfo orderInfo = orderInfoMapper.getOrderInfoByOrderNo(orderNo);
+//       通过得到的订单里面的id去查询每个订单项
+        List<OrderItem> orderItemByOrderId = orderItemMapper.getOrderItemByOrderId(orderInfo.getId());
+        orderInfo.setOrderItemList(orderItemByOrderId);
+
+        return orderInfo;
+    }
+
+    /**
+     * 通过orderNo，orderStatus远程调用
+     * @param orderNo
+     * @param orderStatus
+     * @return
+     */
+    @Override
+    public void updateOrderStatus(String orderNo, Integer orderStatus) {
+//        OrderInfo orderInfo = orderInfoMapper.getOrderInfoByOrderNo(orderNo);
+//        orderInfo.setOrderStatus(orderStatus);
+//        orderInfo.setPayType(2);
+//        orderInfo.setPaymentTime(new Date());
+        orderInfoMapper.updateById(orderNo,orderStatus);
+
     }
 
 }
