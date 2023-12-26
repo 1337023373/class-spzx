@@ -14,12 +14,17 @@ import com.atguigu.spzx.model.dto.user.UserRegisterDto;
 
 import com.atguigu.spzx.model.entity.h5.UserInfo;
 import com.atguigu.spzx.model.entity.order.OrderItem;
+import com.atguigu.spzx.model.entity.user.UserBrowseHistory;
+import com.atguigu.spzx.model.entity.user.UserCollect;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.user.UserInfoVo;
+import com.atguigu.spzx.user.mapper.UserBrowseHistoryMapper;
 import com.atguigu.spzx.user.mapper.UserCollectMapper;
 import com.atguigu.spzx.user.mapper.UserInfoMapper;
 import com.atguigu.spzx.user.service.UserInfoService;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.ibatis.annotations.Param;
@@ -30,10 +35,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StreamUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -45,6 +52,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     private UserCollectMapper userCollectMapper;
 
+    @Resource
+    private UserBrowseHistoryMapper userBrowseHistoryMapper;
 
     @Autowired
     protected RedisTemplate<String,String> redisTemplate;
@@ -147,23 +156,84 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     /**
+     * 查询用户是否收藏商品
+     * @param skuId
+     * @return
+     */
+    @Override
+    public Boolean isCollect(Long skuId) {
+//        Long userId = AuthContextUtil.getUserInfo().getId();
+//        通过skuId查询表得到数据
+       List<UserCollect> isCollectList =  userCollectMapper.findIsCollect(skuId);
+
+//       判断数据是否为空
+        if (CollectionUtils.isEmpty(isCollectList)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 用户收藏
      */
     @Override
     public Boolean collect(Long skuId) {
         Long userId = AuthContextUtil.getUserInfo().getId();
-        userCollectMapper.add(userId,skuId);
-        return true;
+//        需要判断表中是否已经收藏过该商品,为false,即是没有收藏，就添加
+       if( !isCollect(skuId)){
+           userCollectMapper.add(userId,skuId);
+           return true;
+       }
+        return false;
     }
 
     /**
      * 用户取消收藏
+     *
      */
     @Override
-    public void cancelCollect(Long skuId) {
-
+    public Boolean cancelCollect(Long skuId) {
         userCollectMapper.delete(skuId);
-
+        return true;
     }
 
+    /**
+     * 分页展示用户收藏的商品列表
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public PageInfo<UserCollect> findUserCollectPage(Integer page, Integer limit) {
+        PageHelper.startPage(page, limit);
+//       通过获取当前线程的id，去查询用户所收藏的商品
+        Long userId = AuthContextUtil.getUserInfo().getId();
+       List<UserCollect> userCollectList = userCollectMapper.findUserCollect(userId);
+        return new PageInfo<>(userCollectList);
+    }
+
+    /**
+     * 保存用户浏览历史
+     * @param userId
+     * @param skuId
+     * @return
+     */
+    @Override
+    public void userBrowseHistory(Long userId, Long skuId) {
+        userBrowseHistoryMapper.add(userId, skuId);
+    }
+
+    /**
+     * 获取用户浏览历史分页列表
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public PageInfo<UserBrowseHistory> findUserBrowseHistoryPage(Integer page, Integer limit) {
+        PageHelper.startPage(page, limit);
+        Long userId = AuthContextUtil.getUserInfo().getId();
+        List<UserBrowseHistory> userBrowseHistoryList = userBrowseHistoryMapper.find(userId);
+        return new PageInfo<>(userBrowseHistoryList);
+    }
 }

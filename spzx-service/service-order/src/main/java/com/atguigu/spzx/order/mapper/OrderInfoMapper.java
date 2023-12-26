@@ -15,5 +15,5 @@ public interface OrderInfoMapper {
 
     OrderInfo getOrderInfoByOrderNo(String orderNo);
 
-    void updateById(String orderNo, Integer orderStatus);
+    void updateById(@Param("orderNo") String orderNo, @Param("orderStatus") Integer orderStatus);
 }

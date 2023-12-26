@@ -8,4 +8,16 @@
     <delete id="delete">
         delete from user_collect where sku_id = #{skuId}
     </delete>
+    <!--   通过skuId查询是否收藏-->
+    <select id="findIsCollect" resultType="com.atguigu.spzx.model.entity.user.UserCollect">
+        select id, user_id, sku_id, create_time, update_time, is_deleted
+        from user_collect where sku_id = #{skuId}
+    </select>
+<!--    通过userId查找-->
+    <select id="findUserCollect" resultType="com.atguigu.spzx.model.entity.user.UserCollect">
+        select id, user_id, sku_id, create_time, update_time, is_deleted
+        from user_collect where user_id = #{userId}
+    </select>
+
+
 </mapper>
