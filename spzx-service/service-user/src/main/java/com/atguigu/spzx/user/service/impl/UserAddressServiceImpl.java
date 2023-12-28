@@ -38,4 +38,16 @@ public class UserAddressServiceImpl implements UserAddressService {
     public UserAddress getById(Long id) {
        return userAddressMapper.getById(id);
     }
+
+    /**
+     * 新增用户地址
+     * @param userAddress
+     * @return
+     */
+    @Override
+    public List<UserAddress> saveAddress(UserAddress userAddress) {
+//
+       List<UserAddress> userAddressList = userAddressMapper.save(userAddress);
+        return userAddressList;
+    }
 }

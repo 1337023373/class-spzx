@@ -7,10 +7,7 @@ import com.atguigu.spzx.user.service.UserAddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class UserAddressController {
     private UserAddressService userAddressService;
 
     @Operation(summary = "获取用户地址")
-    @GetMapping("auth/findUserAddressList")
+    @GetMapping("/auth/findUserAddressList")
     public Result getUserAddress() {
         List<UserAddress> userAddressList = userAddressService.getUserAddress();
         return Result.build(userAddressList, ResultCodeEnum.SUCCESS);
@@ -33,4 +30,12 @@ public class UserAddressController {
     public UserAddress getUserAddress(@PathVariable Long id) {
         return userAddressService.getById(id);
     }
+
+    @Operation(summary = "新增用户地址")
+    @PostMapping("/auth/save")
+    public Result saveAddress(@RequestBody UserAddress userAddress) {
+        List<UserAddress> userAddressList = userAddressService.saveAddress(userAddress);
+        return Result.build(userAddressList, ResultCodeEnum.SUCCESS);
+    }
 }
+

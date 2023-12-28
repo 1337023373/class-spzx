@@ -15,4 +15,6 @@ public interface UserAddressMapper {
     UserAddress updateAddress(UserAddress userAddress);
 
     void deleteById(Long userId);
+
+    List<UserAddress> save(UserAddress userAddress);
 }

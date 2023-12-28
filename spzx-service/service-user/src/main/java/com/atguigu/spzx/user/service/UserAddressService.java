@@ -8,4 +8,6 @@ public interface UserAddressService {
     List<UserAddress> getUserAddress();
 
     UserAddress getById(Long id);
+
+    List<UserAddress> saveAddress(UserAddress userAddress);
 }

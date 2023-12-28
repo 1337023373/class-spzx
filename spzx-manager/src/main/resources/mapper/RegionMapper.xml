@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.spzx.manager.mapper.RegionMapper">
+
+
+    <select id="findByParentCode" resultType="com.atguigu.spzx.model.entity.base.Region">
+        select id, code, parent_code, name, level, create_time, update_time, is_deleted
+        from region
+        where parent_code = #{parentCode}
+    </select>
+</mapper>

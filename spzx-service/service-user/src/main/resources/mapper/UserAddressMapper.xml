@@ -15,7 +15,11 @@
                  #{fullAddress},
                  #{isDefault})
     </insert>
-<!--    更新地址-->
+
+    <insert id="save">
+
+    </insert>
+    <!--    更新地址-->
     <update id="updateAddress">
         update user_address
         <set>
